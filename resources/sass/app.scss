@@ -1,0 +1,16 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// select2
+@import '~select2/dist/css/select2.css';
+
+.bg-umy {
+    color: $white;
+    background-image: linear-gradient(90deg, #004028, #009612);
+}
