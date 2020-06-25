@@ -12,7 +12,6 @@
 .phpunit.result.cache
 _ide_helper.php
 _ide_helper_models.php
-composer.lock
 Homestead.json
 Homestead.yaml
 npm-debug.log
