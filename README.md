@@ -1,5 +1,5 @@
 # Sistem Informasi Notulen
-Merupakan versi _rewrite_ dari aplikasi notulen sebelumnya yang bertujuan untuk mencatat hasil rapat, lampiran dan peserta hadir. Dibuat saat saya PKL di Universitas Muhammadiyah Yogyakarta.
+Merupakan versi _rewrite_ dari aplikasi [notulen](https://github.com/mxsgx/notulen) sebelumnya yang bertujuan untuk mencatat hasil rapat, lampiran dan peserta hadir. Dibuat saat saya PKL di Universitas Muhammadiyah Yogyakarta.
 
 ## Instalasi & Setup
 ```bash
