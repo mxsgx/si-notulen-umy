@@ -15,7 +15,7 @@ class Minute extends Model
     protected $fillable = [
         'agenda', 'lecturer_id', 'meeting_id', 'room_id',
         'meeting_date', 'start_at', 'end_at', 'note',
-        'study_id',
+        'study_id', 'notulis_id'
     ];
 
     /**
@@ -57,6 +57,16 @@ class Minute extends Model
     public function lecturer()
     {
         return $this->belongsTo(Lecturer::class, 'lecturer_id', 'id');
+    }
+
+    /**
+     * Mengambil record Lecturer sebagai Notulis yang berelasi dengan Minute.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function notulis()
+    {
+        return $this->belongsTo(Lecturer::class, 'notulis_id', 'id');
     }
 
     /**

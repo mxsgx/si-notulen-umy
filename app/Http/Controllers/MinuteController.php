@@ -95,13 +95,13 @@ class MinuteController extends Controller
                 'dismissible' => true,
                 'content' => __('Berhasil menambahkan notulen baru.'),
             ]);
-        } else {
-            return redirect()->back()->with('notice', [
-                'type' => 'danger',
-                'dismissible' => true,
-                'content' => __('Gagal menambahkan notulen baru.'),
-            ]);
         }
+
+        return redirect()->back()->with('notice', [
+            'type' => 'danger',
+            'dismissible' => true,
+            'content' => __('Gagal menambahkan notulen baru.'),
+        ]);
     }
 
     /**
@@ -208,13 +208,13 @@ class MinuteController extends Controller
                 'dismissible' => true,
                 'content' => __('Berhasil mengubah data notulen.'),
             ]);
-        } else {
-            return redirect()->back()->with('notice', [
-                'type' => 'danger',
-                'dismissible' => true,
-                'content' => __('Gagal mengubah data notulen.'),
-            ]);
         }
+
+        return redirect()->back()->with('notice', [
+            'type' => 'danger',
+            'dismissible' => true,
+            'content' => __('Gagal mengubah data notulen.'),
+        ]);
     }
 
     /**
@@ -253,12 +253,12 @@ class MinuteController extends Controller
                 return response()->file($filePath, [
                     'filename' => $document->name
                 ]);
-            } else {
-                return response()->download($filePath, $document->name);
             }
-        } else {
-            abort('404', __('File tidak ditemukan'));
+
+            return response()->download($filePath, $document->name);
         }
+
+        abort('404', __('File tidak ditemukan'));
     }
 
     public function delete(Minute $minute)
@@ -282,12 +282,12 @@ class MinuteController extends Controller
                 'dismissible' => true,
                 'content' => __('Berhasil menghapus data notulen.'),
             ]);
-        } else {
-            return redirect()->back()->with('notice', [
-                'type' => 'danger',
-                'dismissible' => true,
-                'content' => __('Gagal menghapus data notulen.'),
-            ]);
         }
+
+        return redirect()->back()->with('notice', [
+            'type' => 'danger',
+            'dismissible' => true,
+            'content' => __('Gagal menghapus data notulen.'),
+        ]);
     }
 }

@@ -53,6 +53,17 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label for="notulis_id">{{ __('Notulis Rapat') }}</label>
+                                <select name="notulis_id" id="notulis_id" required class="form-control @error('notulis_id') is-invalid @enderror">
+                                    @foreach(\App\Lecturer::all()->sortBy('name') as $lecturer)
+                                        <option value="{{ $lecturer->id }}">{{ $lecturer->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('notulis_id')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label for="presents">{{ __('Peserta Rapat') }}</label>
                                 <select name="presents[]" id="presents" class="form-control @error('presents') is-invalid @enderror" multiple>
                                     @foreach(\App\Lecturer::all()->sortBy('name') as $lecturer)

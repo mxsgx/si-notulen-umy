@@ -27,6 +27,7 @@ class StoreMinute extends FormRequest
             'study_id' => ['required', 'exists:studies,id'],
             'agenda' => ['required', 'string'],
             'lecturer_id' => ['required', 'exists:lecturers,id'],
+            'notulis_id' => ['required', 'exists:lecturers,id'],
             'presents.*' => ['required', 'exists:lecturers,id'],
             'meeting_id' => ['required', 'exists:meetings,id'],
             'room_id' => ['required', 'exists:rooms,id'],
