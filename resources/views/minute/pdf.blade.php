@@ -46,7 +46,7 @@
     </style>
 </head>
 <body>
-    <h1 class="judul">Notulen Rapat Pimpinan Fakultas Teknik UMY</h1>
+    <h1 class="judul">{{ $minute->agenda }}</h1>
     <h2 class="subjudul">Universitas Muhammadiyah Yogyakarta</h2>
     <table class="tabel-keterangan">
         <tr>
@@ -92,12 +92,12 @@
         <tr>
             <td style="text-align: center">
                 <p style="margin-bottom: 4rem">Pimpinan Rapat</p>
-                <p>(...........................)</p>
+                <p>{{ $minute->lecturer->name }}</p>
             </td>
             <td></td>
             <td style="text-align: center">
                 <p style="margin-bottom: 4rem">Notulis</p>
-                <p>(...........................)</p>
+                <p>{{ $minute->notulis->name ?? '(...........................)' }}</p>
             </td>
         </tr>
     </table>
