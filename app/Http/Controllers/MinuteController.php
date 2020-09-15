@@ -10,6 +10,7 @@ use App\Present;
 use File;
 use Hash;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use PDF;
 
 class MinuteController extends Controller
@@ -18,6 +19,7 @@ class MinuteController extends Controller
      * Menampilkan daftar notulen.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
@@ -62,6 +64,7 @@ class MinuteController extends Controller
      * Menyimpan data notulen ke database.
      *
      * @param StoreMinute $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
@@ -78,7 +81,7 @@ class MinuteController extends Controller
             foreach ($presents as $present) {
                 Present::create([
                     'minute_id' => $minute->id,
-                    'lecturer_id' => $present
+                    'lecturer_id' => $present,
                 ]);
             }
         }
@@ -121,7 +124,7 @@ class MinuteController extends Controller
             Document::create([
                 'name' => $originalName,
                 'file_name' => $fileName,
-                'minute_id' => $minute->id
+                'minute_id' => $minute->id,
             ]);
         }
     }
@@ -130,6 +133,7 @@ class MinuteController extends Controller
      * Menampilkan form untuk mengubah data notulen.
      *
      * @param Minute $minute
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
@@ -145,6 +149,7 @@ class MinuteController extends Controller
      *
      * @param UpdateMinute $request
      * @param Minute       $minute
+     *
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
@@ -156,7 +161,7 @@ class MinuteController extends Controller
 
         if ($data->has('presents')) {
             $existedPresents = $minute->presents->map(function ($present) {
-                return (string)$present->lecturer_id;
+                return (string) $present->lecturer_id;
             })->toArray();
             $incomingPresents = $data->get('presents');
 
@@ -165,7 +170,7 @@ class MinuteController extends Controller
                 ->each(function ($id) use ($minute) {
                     Present::create([
                         'minute_id' => $minute->id,
-                        'lecturer_id' => $id
+                        'lecturer_id' => $id,
                     ]);
                 });
 
@@ -202,7 +207,26 @@ class MinuteController extends Controller
             }
         }
 
-        if ($minute->update($data->except(['presents', 'attachments', 'delete_attachments'])->toArray())) {
+        if ($data->has('signature_minute')) {
+            $signatureMinute = $data->get('signature_minute');
+
+            if ($signatureMinute instanceof UploadedFile) {
+                $oldSignature = $minute->signature_minute;
+                $originalName = $signatureMinute->getClientOriginalName();
+                $fileName = hash('sha256', Hash::make($originalName)) . '.' . $signatureMinute->getClientOriginalExtension();
+                if ($signatureMinute->move(storage_path('signature'), $fileName)) {
+                    $minute->update([
+                        'signature_minute' => $fileName,
+                    ]);
+
+                    if ($oldSignature) {
+                        File::delete(storage_path('signature/' . $oldSignature));
+                    }
+                }
+            }
+        }
+
+        if ($minute->update($data->except(['presents', 'attachments', 'delete_attachments', 'signature_minute'])->toArray())) {
             return redirect()->route('minute.edit', compact('minute'))->with('notice', [
                 'type' => 'success',
                 'dismissible' => true,
@@ -221,6 +245,7 @@ class MinuteController extends Controller
      * Menampilkan hasil rapat yang ditulis dalam bentuk PDF.
      *
      * @param Minute $minute
+     *
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
@@ -237,6 +262,7 @@ class MinuteController extends Controller
      *
      * @param Minute   $minute
      * @param Document $document
+     *
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
@@ -251,7 +277,7 @@ class MinuteController extends Controller
 
             if (in_array($ext, ['pdf', 'png', 'jpeg', 'jpg'])) {
                 return response()->file($filePath, [
-                    'filename' => $document->name
+                    'filename' => $document->name,
                 ]);
             }
 
@@ -289,5 +315,39 @@ class MinuteController extends Controller
             'dismissible' => true,
             'content' => __('Gagal menghapus data notulen.'),
         ]);
+    }
+
+
+    /**
+     * Menampilkan unggahan notulen yang ditandatangani.
+     *
+     * @param \App\Minute $minute
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function signature(Minute $minute)
+    {
+        $this->authorize('view', $minute);
+
+        if (!$minute->signature_minute) {
+            abort('404', __('Notulen belum ditandatangani'));
+        }
+
+        $filePath = storage_path('signature/' . $minute->signature_minute);
+
+        if (File::exists($filePath)) {
+            $ext = File::extension($filePath);
+
+            if (in_array($ext, ['pdf', 'png', 'jpeg', 'jpg'])) {
+                return response()->file($filePath, [
+                    'filename' => $minute->agenda,
+                ]);
+            }
+
+            return response()->download($filePath, $minute->agenda);
+        } else {
+            abort('404', __('File tidak ada.'));
+        }
     }
 }

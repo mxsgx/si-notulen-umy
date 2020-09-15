@@ -15,7 +15,7 @@ class Minute extends Model
     protected $fillable = [
         'agenda', 'lecturer_id', 'meeting_id', 'room_id',
         'meeting_date', 'start_at', 'end_at', 'note',
-        'study_id', 'notulis_id'
+        'study_id', 'notulis_id', 'signature_minute',
     ];
 
     /**

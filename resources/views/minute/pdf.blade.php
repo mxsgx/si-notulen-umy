@@ -46,7 +46,7 @@
     </style>
 </head>
 <body>
-    <h1 class="judul">{{ $minute->meeting->name }}</h1>
+    <h1 class="judul">Notulen {{ $minute->meeting->name }}</h1>
     <h2 class="subjudul">Universitas Muhammadiyah Yogyakarta</h2>
     <table class="tabel-keterangan">
         <tr>

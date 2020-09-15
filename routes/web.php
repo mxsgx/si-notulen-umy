@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
         Route::patch('/{minute}', 'MinuteController@update')->name('minute.update');
         Route::delete('/{minute}', 'MinuteController@delete')->name('minute.delete');
         Route::get('/{minute}/pdf', 'MinuteController@pdf')->name('minute.pdf');
+        Route::get('/{minute}/signature', 'MinuteController@signature')->name('minute.signature');
         Route::get('/{minute}/lampiran/{document:file_name}', 'MinuteController@document')->name('minute.attachment');
     });
 

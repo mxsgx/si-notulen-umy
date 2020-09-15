@@ -37,6 +37,7 @@ class UpdateMinute extends FormRequest
             'note' => ['nullable', 'string'],
             'attachments.*' => ['nullable', 'file', 'mimes:docx,pdf,jpeg,png'],
             'delete_attachments.*' => ['nullable', 'exists:documents,id'],
+            'signature_minute' => ['nullable', 'file', 'mimes:docx,pdf,jpeg,png'],
         ];
     }
 }

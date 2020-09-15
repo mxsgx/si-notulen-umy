@@ -175,9 +175,24 @@
                                 <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
                             </div>
+                            <hr>
+                            <div class="form-group">
+                                <label for="signature_minute">{{ __('Unggah Notulen Yang Ditandatangani') }}</label>
+                                <input id="signature_minute" type="file" name="signature_minute" class="form-control-file" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg,image/png,.pdf">
+                                @error('signature_minute')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                                @enderror
+                                <hr>
+                                @if($minute->signature_minute)
+                                    <p>
+                                        Dinggah: <a href="{{ route('minute.signature', compact('minute')) }}">{{ __('Notulen Ditandatangani') }}</a>
+                                    </p>
+                                @endif
+                            </div>
                             <div class="d-flex justify-content-end">
+                                <a href="{{ route('minute.pdf', compact('minute')) }}" target="_blank" class="btn btn-primary mr-2">{{ __('PDF') }}</a>
                                 <a href="#" data-toggle="modal" data-target="#delete" class="btn btn-danger mr-2">{{ __('Hapus') }}</a>
-                                <button type="submit" class="btn btn-primary">{{ __('Ubah') }}</button>
+                                <button type="submit" class="btn btn-success">{{ __('Ubah') }}</button>
                             </div>
                         </form>
                     </div>

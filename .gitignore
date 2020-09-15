@@ -5,6 +5,7 @@
 /storage/*.key
 /storage/backup/*.json
 /storage/documents
+/storage/signature
 /vendor
 .env
 .env.backup
