@@ -7,7 +7,7 @@
         <a href="{{ route('minute.delete', compact('minute')) }}" class="btn btn-sm btn-danger m-1" data-toggle="modal" data-target="#delete">{{ __('Hapus') }}</a>
         <a href="{{ route('minute.edit', compact('minute')) }}" class="btn btn-sm btn-success m-1">{{ __('Sunting') }}</a>
         @if($minute->signature_minute)
-            <a href="{{ route('minute.signature', compact('minute')) }}" class="btn btn-sm btn-primary m-1">{{ __('TTD') }}</a>
+            <a href="{{ route('minute.signature', compact('minute')) }}" class="btn btn-sm btn-primary m-1">{{ __('Hasil Rapat') }}</a>
         @endif
     </td>
 </tr>
