@@ -35,12 +35,13 @@
                                 <select name="role" id="role" class="form-control @error('role') is-invalid @enderror" x-model="role" @change="roleOnChange" required>
                                     <option value="super-admin" @if($user->role === 'super-admin') selected @endif>{{ __('Super Admin') }}</option>
                                     <option value="admin" @if($user->role === 'admin') selected @endif>{{ __('Admin') }}</option>
+                                    <option value="operator" @if($user->role === 'operator') selected @endif>{{ __('Operator') }}</option>
                                 </select>
                                 @error('role')
                                 <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <template x-if="isAdmin">
+                            <template x-if="isNotSuperAdmin">
                                 <div class="form-group">
                                     <label for="study_id">{{ __('Prodi') }}</label>
                                     <select name="study_id" id="study_id" class="form-control @error('study_id') is-invalid @enderror" required>
@@ -91,9 +92,9 @@
         function data() {
             return {
                 role: '{{ $user->role }}',
-                isAdmin: {{ $user->role === 'admin' ? 'true' : 'false' }},
+                isNotSuperAdmin: {{ $user->role !== 'super-admin' ? 'true' : 'false' }},
                 roleOnChange(el) {
-                    this.isAdmin = this.role === 'admin';
+                    this.isNotSuperAdmin = this.role !== 'super-admin';
                 }
             }
         }

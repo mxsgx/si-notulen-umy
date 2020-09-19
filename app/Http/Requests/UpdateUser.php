@@ -29,8 +29,8 @@ class UpdateUser extends FormRequest
         $rules = [
             'name' => ['required', 'string'],
             'email' => ['required', 'email'],
-            'role' => ['required', 'in:super-admin,admin'],
-            'study_id' => ['required_if:role,admin', 'exists:studies,id'],
+            'role' => ['required', 'in:super-admin,admin,operator'],
+            'study_id' => ['required_if:role,admin,operator', 'exists:studies,id'],
         ];
 
         if ($email != $user->email) {

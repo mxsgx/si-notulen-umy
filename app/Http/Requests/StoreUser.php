@@ -27,8 +27,8 @@ class StoreUser extends FormRequest
             'name' => ['required', 'string'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'min:5'],
-            'role' => ['required', 'in:super-admin,admin'],
-            'study_id' => ['required_if:role,admin', 'exists:studies,id'],
+            'role' => ['required', 'in:super-admin,admin,operator'],
+            'study_id' => ['required_if:role,admin,operator', 'exists:studies,id'],
         ];
     }
 }

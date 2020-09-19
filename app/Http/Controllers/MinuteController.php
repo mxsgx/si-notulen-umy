@@ -36,7 +36,7 @@ class MinuteController extends Controller
             $fragments['cari'] = $keyword;
         }
 
-        if (auth()->user()->role === 'admin') {
+        if (auth()->user()->role !== 'super-admin') {
             $query->where('study_id', '=', auth()->user()->study_id);
         }
 
